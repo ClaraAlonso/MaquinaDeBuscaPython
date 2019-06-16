@@ -15,7 +15,7 @@ class Link(db.Model):
     url = db.Column(db.String)
     #ultimaColeta = db.Column(db.String)
     
-    def __init__(self, url, ultimaColeta):
+    def __init__(self, url):
         self.url = url
         #self.ultimaColeta = ultimaColeta
         
@@ -25,23 +25,23 @@ db.create_all()
 def link():
     return render_template("link.html")
 
-@app.route("/inserirLink", methods=['GET', 'POST'])
+@app.route("/link", methods=['GET', 'POST'])
 def inserirLink():
     if request.method == "POST":
         url = request.form.get("url")
         #ultimaColeta = request.form.get("ultimaColeta")
     
         if url:
-            link = Link(url)
-            db.session.add(link)
+            objLink = Link(url)
+            db.session.add(objLink)
             db.session.commit()
 
-    return redirect(url_for("index"))
+    return redirect(url_for("link"))
 
 @app.route("/listaLink")
 def lista():
-    link = Link.query.all()
-    return render_template("listaLink.html", link=link)
+    links = Link.query.all()
+    return render_template("listaLink.html", links=link)
 
 if __name__ == '__main__':
      app.run(debug=True)

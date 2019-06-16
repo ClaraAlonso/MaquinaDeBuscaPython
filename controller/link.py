@@ -1,7 +1,7 @@
 
 from flask import Flask, render_template, request, url_for, redirect
 
-from flaskext.cache.sqlalchemy import SQLAlchemy
+from flask.ext.cache.sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqllite:///db.sqllite'
@@ -17,7 +17,7 @@ class Link(db.Model):
     ultimaColeta = db.Column(db.String)
     
     def __init__(self, url, ultimaColeta):
-        self.y=url = nome
+        Self.url =url
         self.ultimaColeta = ultimaColeta
         
 db.create_all()
@@ -26,11 +26,11 @@ db.create_all()
 def link():
     return render_template("link.html")
 
-@app.route("/inserirLink", methods=['GET', 'POST'])
+@app.route("/inserirLink", methods=['POST'])
 def inserirLink():
     if request.method == "POST":
-    url = request,form.get("url")
-    ultimaColeta = request,form.get("ultimaColeta")
+        url = request.form.get("url")
+        ultimaColeta = request.form.get("ultimaColeta")
 
 
 if __name__ == '__main__':

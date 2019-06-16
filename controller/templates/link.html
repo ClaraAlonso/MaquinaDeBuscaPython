@@ -6,14 +6,14 @@
     </head>
     <body>
         <h1>Inserir Links</h1>
-        <form action="{{ url_for('link') }}" method="POST">
+        <form action="{{ url_for('link')}}" method="POST">
             <table>
                 <tr>
-                    <td>Url</td>
-                    <td>input type="text" name="url"></td>
+                    <td>Url: </td>
+                    <td><input type="text" name="url"></td>
                 </tr>
             </table>
-            <input type="submit" value="Inseiri">
+            <input type="submit" value="Inserir">
         </form>
     </body>
 </html>

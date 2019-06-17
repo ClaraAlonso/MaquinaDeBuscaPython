@@ -21,12 +21,16 @@ class Link(db.Model):
         
 db.create_all()
 
-@app.route("/link")
-def link():
-    return render_template("link.html")
+@app.route("/index")
+def index():
+    return render_template("index.html")
 
-@app.route("/link", methods=['GET', 'POST'])
-def inserirLink():
+@app.route("/cadastrarLink")
+def link():
+    return render_template("cadastrarLink.html")
+
+@app.route("/cadastrarLink", methods=['GET', 'POST'])
+def cadastrarLink():
     if request.method == "POST":
         url = request.form.get("url")
         #ultimaColeta = request.form.get("ultimaColeta")
@@ -36,12 +40,41 @@ def inserirLink():
             db.session.add(objLink)
             db.session.commit()
 
-    return redirect(url_for("link"))
+    return redirect(url_for("index"))
 
-@app.route("/listaLink")
-def lista():
+@app.route("/listarLink")
+def listarLink():
     links = Link.query.all()
-    return render_template("listaLink.html", links=link)
+    return render_template("listarLink.html", links=links)
+
+@app.route("/excluir/<int:id>")
+def excluir(id):
+    link = Link.query.filter_by(_id=id).first()
+
+    db.session.delete(link)
+    db.session.commit()
+
+    links = Link.query.all()
+    return render_template("listarLink.html", links=links)
+
+@app.route("/atualizar/<int:id>", methods=['GET', 'POST'])
+def atualizar(id):
+    link = Link.query.filter_by(_id=id).first()
+
+    if request.method == "POST":
+        url = request.form.get("url")
+        #ultimaColeta = request.form.get("ultimaColeta")
+
+        if url:
+                link.url = url
+            
+                db.session.commit()
+
+                return redirect(url_for("listarLink"))
+    return render_template("atualizar.html", link=link)
+    
+def voltar():
+    return render_template("index.html")
 
 if __name__ == '__main__':
      app.run(debug=True)
